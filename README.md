@@ -37,7 +37,7 @@ return [
 	],
 	
 	// If the register page is enabled
-	'activeRegisterPage' => true,
+	'activeRegisterPage' => false,
 ];
 ```
 

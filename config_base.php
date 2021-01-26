@@ -22,7 +22,8 @@ return [
 	
 	// The auth informations
 	'authinfos' => [
-		// Name of the owner of this OpenAuth server
+        // Name of the owner of this OpenAuth server
+        // Simply write the name of your server
 		'owner' => '',
 	],
 
@@ -35,5 +36,5 @@ return [
 	],
 	
 	// If the register page is enabled
-	'activeRegisterPage' => true,
+	'activeRegisterPage' => false,
 ];

@@ -32,6 +32,8 @@ $request['method'] = $_SERVER['REQUEST_METHOD'];
 $request['content-type'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : null;
 
 
+
+
 // If the config file already exists
 if(file_exists('config.php'))
 	// If the install page doesn't exist
@@ -100,21 +102,28 @@ if(file_exists('config.php'))
 		}
 
 		// If the url is register and there is no more arguments
-		elseif($request['args'][0] == "register" && empty($request['args'][1]))
-			// If the register page is activated in the config
-			if(Core\Config::get('activeRegisterPage'))
-				// Printing the register page
-				require 'app/register.php';
+		elseif($request['args'][0] == "register" && empty($request['args'][1])) {
+            // If the register page is activated in the config
+            if (Core\Config::get('activeRegisterPage'))
+                // Printing the register page
+                require 'app/register.php';
 
-			// Else if the register page is disabled
-			else {
-				// Setting the header to 404 error
-				header("HTTP/1.0 404 Not Found");
+            // Else if the register page is disabled
+            else {
+                // Setting the header to 404 error
+                header("HTTP/1.0 404 Not Found");
 
-				// Printing the first error
-				echo error(1);
-			}
+                // Printing the first error
+                echo error(1);
+            }
+        }
 
+        // The join protocol according to: https://wiki.vg/Protocol_Encryption#Authentication
+        elseif ($request['args'][0] == "join" && empty($request['args'][1])) {
+            header('Content-Type: application/json');
+
+            require 'app/join.php';
+        }
 		// Else if the request is just unknown
 		else {
 			// Setting the header to 404 error

@@ -27,7 +27,15 @@ require 'core/functions.php';
 
 // Creating an array with all the request informations
 $args = trim(str_replace(dirname($_SERVER['SCRIPT_NAME']), "", $_SERVER['REQUEST_URI']), "/");
+
+// we remove query for args
+if (!empty(args))
+    $args = explode("?", $args)[0];
 $request['args'] = (!empty($args)) ? explode("/", $args) : false;
+
+// we add the query
+$request['query'] = array();
+parse_str($_SERVER['QUERY_STRING'], $request['query']);
 $request['method'] = $_SERVER['REQUEST_METHOD'];
 $request['content-type'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : null;
 
@@ -50,6 +58,7 @@ if(file_exists('config.php'))
 				'Application-Name'			=>	'openauth.server',
 				'Implementation-Version' 	=>	'1.0.0_build01',
 				'Application-Owner' 		=>	Core\Config::get('authinfos.owner'),
+                'args-1' => $request['args'][1]
 			);
 
 			// And printing it as a JSON
@@ -123,6 +132,12 @@ if(file_exists('config.php'))
             header('Content-Type: application/json');
 
             require 'app/join.php';
+        }
+
+        elseif ($request['args'][0] == "hasJoined" && empty($request['args'][1])) {
+            header('Content-Type: application/json');
+
+            require 'app/hasJoined.php';
         }
 		// Else if the request is just unknown
 		else {

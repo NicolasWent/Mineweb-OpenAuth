@@ -29,10 +29,11 @@ if($request['method'] == "POST")
 
                     $ip = getIp();
                     // Say that the user has connected at given time:
-                    Core\Queries::execute('INSERT INTO openauth_connections (username, serverid, ip) VALUE (:username, :serverid, :ip)', [
+                    Core\Queries::execute('INSERT INTO openauth_connections (username, serverid, ip, time) VALUE (:username, :serverid, :ip, :time)', [
                         'username' => $username,
                         'serverid' => $serverId,
-                        'ip' => $ip
+                        'ip' => $ip,
+                        'time' => microtime()
                     ]);
 
                 } else
